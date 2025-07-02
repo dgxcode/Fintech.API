@@ -51,7 +51,7 @@ No arquivo appsettings.json já existe a string de conexão apontando para o Pos
 
 📝 Como rodar a aplicação
 
-1️⃣ Clone o repositório: git clone https://github.com/seuusuario/nomedorepo.git
+1️⃣ Clone o repositório: git clone https://github.com/dgxcode/Fintech.API
 
 2️⃣ Restaure os pacotes: dotnet restore
 3️⃣ Execute as migrations (se necessário): dotnet ef database update
