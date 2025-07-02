@@ -1,0 +1,23 @@
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: fintech_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: post1
+      POSTGRES_DB: fintechdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fintech_network
+
+networks:
+  fintech_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
