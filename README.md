@@ -2,60 +2,65 @@
 📌 Visão Geral
 Esta é uma API REST para gerenciar uma fintech, construída em .NET 8 com PostgreSQL, Docker e boas práticas de Clean Architecture, SOLID e testes automatizados. O projeto está configurado para ser facilmente executado via docker-compose, garantindo que qualquer desenvolvedor possa clonar e subir o ambiente de forma rápida.
 
-🚀 Tecnologias Utilizadas
-.NET 8
+Tecnologias
+ -> .NET 8
+ -> ASP.NET Core Web API
+ -> Entity Framework Core
+ -> PostgreSQL (via Docker)
+ -> Swagger
+ -> User-Secrets (.NET)
+ -> DotNetEnv (.env) para segredos
+ -> Clean Architecture (camadas separadas)
+ -> SOLID
+ -> PostgreSQL 16
+ -> Docker / Docker Compose
+ -> autenticação JWT
+ -> EF Core
+ -> xUnit
+ -> MediatR
+ -> Dapper
 
-PostgreSQL 16
-Docker / Docker Compose
-EF Core
-Swagger
-xUnit
-Clean Architecture
-SOLID principles
-MediatR
-Dapper
+Configuração do ambiente
+ -> Pré-requisitos
+ -> .NET 8 SDK
+ -> Docker
+ -> Git
+ -> Visual Studio 2022 ou VS Code (opcional)
 
-⚙️ Configuração do Banco de Dados (Docker)
-O serviço de banco de dados já está configurado no arquivo docker-compose.yml:
+Clonando o projeto
+ -> git clone https://github.com/dgxcode/Fintech.API
+ -> cd seu-repositorio
+ -> Subindo o banco PostgreSQL via Docker
+ -> O projeto utiliza o Docker para facilitar.
+ -> docker-compose up -d - Isso vai criar o container fintech_postgres na porta 5432.
 
-services:
-  postgres:
-    image: postgres:16
-    container_name: fintech_postgres
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: post1
-      POSTGRES_DB: fintechdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - fintech_network
+Configurando variáveis de ambiente
+ * Recomendações: Nunca coloque segredos diretamente no appsettings.json.
+Crie um arquivo chamado .env na raiz do projeto Fintech.API: .env
+Dentro dele, adicione: JWT_SECRET=uma-chave-super-segura-gerada
+Para gerar a chave de forma segura:
+ -> Linux/macOS : openssl rand -base64 32
+ -> Windows PowerShell : [Convert]::ToBase64String((1..32 | ForEach-Object {Get-Random -Max 256}))
 
-networks:
-  fintech_network:
-    driver: bridge
+Configurando User-Secrets (Visual Studio)
+ -> dotnet user-secrets init --project ./Fintech.API
+ -> dotnet user-secrets set "JwtSettings:Secret" "sua-chave-super-segura" --project ./Fintech.API
+ -> Connection string 
 
-volumes:
-  postgres_data:
-Para subir o banco de dados, basta rodar no terminal: docker-compose up -d
+já configurada no appsettings.json apontando para o Docker:
+	"ConnectionStrings": {
+		"DefaultConnection": "Host=localhost;Port=5432;Database=fintechdb;Username=postgres;Password=post1"
+	}
 
-⚙️ Configuração da Aplicação
-No arquivo appsettings.json já existe a string de conexão apontando para o PostgreSQL no Docker:
+Rodando a aplicação
+Pelo terminal:
+ -> dotnet run --project ./Fintech.API
+ -> Ou no Visual Studio, selecione Fintech.API como projeto de inicialização e clique Run.
 
-"ConnectionStrings": {
-  "DefaultConnection": "Host=localhost;Port=5432;Database=fintechdb;Username=postgres;Password=post1"
-}
+Swagger : https://localhost:5001/swagger
 
-📝 Como rodar a aplicação
-
-1️⃣ Clone o repositório: git clone https://github.com/dgxcode/Fintech.API
-
-2️⃣ Restaure os pacotes: dotnet restore
-3️⃣ Execute as migrations (se necessário): dotnet ef database update
-4️⃣ Inicie a aplicação: dotnet run --project Fintech.API
+Banco de dados
+O projeto faz seeding automático ao subir, usando o FintechDbContextSeed.SeedAsync()
 
 🧪 Executando os Testes
 Os testes unitários e de integração estão no projeto Fintech.Tests. Execute com: dotnet test
@@ -91,23 +96,19 @@ As credenciais JWT estão configuradas no appsettings.json:
  -> Fintech.Infrastructure - acesso a dados (EF Core, Dapper)
  -> Fintech.Tests - testes automatizados
 
-📄 Boas Práticas Utilizadas
-✅ Clean Architecture
-✅ SOLID
-✅ CQRS com MediatR
-✅ Banco de dados desacoplado via Docker
-✅ Testes automatizados
-✅ Versionamento via Git
-✅ Documentação Swagger
+Boas práticas
+✅ O .env está no .gitignore e não deve ser versionado
+✅ Utilize user-secrets no Visual Studio para não subir chaves
+✅ Para parar o banco Docker: docker-compose down
+✅ Para limpar dados persistidos: docker volume prune
 
-🧩 Requisitos para rodar
+Contribuição
+Pull requests são bem-vindos!
+Abra issues para bugs ou melhorias.
 
- -> Docker instalado
- -> .NET 8 SDK
- -> Git
+Licença
+MIT License — fique à vontade para evoluir este projeto.
 
-🫱 Contato
-Rodrigo Digorilla
-https://github.com/dgxcode
-dgxcode@gmail.com
-
+Contato
+Rodrigo de Sousa Batista
+LinkedIn: https://www.linkedin.com/in/rodrigo-dgxcode/ | GitHub : https://github.com/dgxcode
